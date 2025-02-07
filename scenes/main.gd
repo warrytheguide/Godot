@@ -13,7 +13,7 @@ const MAX_DIFFICULTY : int = 2
 var score : float
 const SCORE_MODIFIER : float = 40
 var high_score : int
-const OBSTACLE_SPEED : float = 4.0  # Constant speed for obstacles
+const OBSTACLE_SPEED : float = 6.0  # Constant speed for obstacles
 var screen_size : Vector2i
 var game_running : bool
 var last_obs
@@ -21,6 +21,7 @@ var spawn_speed: float = 3.0  # Time between spawns in seconds
 var spawn_timer: float = 0.0
 
 func _ready():
+	Engine.max_fps = 120
 	screen_size = get_window().size
 	$GameOver.get_node("Button2").pressed.connect(new_game)
 	$GameOver.get_node("Button").pressed.connect(restart_game)
@@ -48,6 +49,7 @@ func new_game():
 	$GameOver.hide()
 
 func _process(delta):
+	print(Engine.get_frames_per_second())
 	if game_running:
 		# Update spawn timer
 		spawn_timer += delta
