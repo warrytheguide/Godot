@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://lyf4a3sklk1o"]
+
+[ext_resource type="Texture2D" uid="uid://dcs0ux58q3422" path="res://assets/img/background/background.png" id="1_6wg3t"]
+[ext_resource type="FontFile" uid="uid://s15272omc2m3" path="res://assets/fonts/retro.ttf" id="1_xwrdd"]
+[ext_resource type="PackedScene" uid="uid://dixvbq3wggeum" path="res://assets/button.tscn" id="3_wxbtm"]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="BlackBackground" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.462745)
+position = Vector2(599, 326)
+scale = Vector2(1.4705, 0.74789)
+texture = ExtResource("1_6wg3t")
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_right = 183.0
+offset_bottom = 54.0
+theme_override_fonts/font = ExtResource("1_xwrdd")
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -318.0
+offset_bottom = 54.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("1_xwrdd")
+theme_override_font_sizes/font_size = 40
+text = "HIGH SCORE: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" parent="." instance=ExtResource("3_wxbtm")]
+text = "INDÍTÁS "
