@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bhtein0chknfn"]
+[gd_scene load_steps=7 format=3 uid="uid://bhtein0chknfn"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_1stpw"]
 [ext_resource type="Texture2D" uid="uid://brkfmxotnemb8" path="res://assets/img/Sprite-0002.png" id="2_htpko"]
+[ext_resource type="Texture2D" uid="uid://tbuni7xig15l" path="res://assets/img/heartempty.png" id="3_v5b2q"]
+[ext_resource type="Texture2D" uid="uid://bn0sqm8aeqvt4" path="res://assets/img/heartfull.png" id="4_osd7e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_whux2"]
 size = Vector2(13.5, 12)
@@ -30,3 +32,54 @@ shape = SubResource("RectangleShape2D_whux2")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-8.8125, -5.625)
 shape = SubResource("RectangleShape2D_qk276")
+
+[node name="HealthBar" type="CanvasLayer" parent="."]
+layer = -2
+offset = Vector2(900, 50)
+transform = Transform2D(1, 0, 0, 1, 900, 50)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HealthBar"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="EmptyHeart" type="Sprite2D" parent="HealthBar/HBoxContainer"]
+position = Vector2(8, 0)
+scale = Vector2(3.5, 3)
+texture = ExtResource("3_v5b2q")
+
+[node name="EmptyHeart2" type="Sprite2D" parent="HealthBar/HBoxContainer"]
+position = Vector2(89, 0)
+scale = Vector2(3.5, 3)
+texture = ExtResource("3_v5b2q")
+
+[node name="EmptyHeart3" type="Sprite2D" parent="HealthBar/HBoxContainer"]
+position = Vector2(170, 0)
+scale = Vector2(3.5, 3)
+texture = ExtResource("3_v5b2q")
+
+[node name="Heart" type="TextureRect" parent="HealthBar/HBoxContainer"]
+custom_minimum_size = Vector2(77.445, 0)
+layout_mode = 2
+
+[node name="FullHeart" type="Sprite2D" parent="HealthBar/HBoxContainer/Heart"]
+position = Vector2(8, 0)
+scale = Vector2(3.5, 3)
+texture = ExtResource("4_osd7e")
+
+[node name="Heart2" type="TextureRect" parent="HealthBar/HBoxContainer"]
+custom_minimum_size = Vector2(77.445, 0)
+layout_mode = 2
+
+[node name="FullHeart" type="Sprite2D" parent="HealthBar/HBoxContainer/Heart2"]
+position = Vector2(8, 0)
+scale = Vector2(3.5, 3)
+texture = ExtResource("4_osd7e")
+
+[node name="Heart3" type="TextureRect" parent="HealthBar/HBoxContainer"]
+custom_minimum_size = Vector2(77.445, 0)
+layout_mode = 2
+
+[node name="FullHeart" type="Sprite2D" parent="HealthBar/HBoxContainer/Heart3"]
+position = Vector2(8, 0)
+scale = Vector2(3.5, 3)
+texture = ExtResource("4_osd7e")

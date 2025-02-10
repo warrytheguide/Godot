@@ -20,6 +20,8 @@ var last_obs
 var spawn_speed: float = 3.0  # Time between spawns in seconds
 var spawn_timer: float = 0.0
 
+signal health_reset
+
 func _ready():
 	Engine.max_fps = 120
 	screen_size = get_window().size
@@ -36,6 +38,7 @@ func new_game():
 	game_running = false
 	get_tree().paused = false
 	difficulty = 0
+	health_reset.emit()
 	
 	for obs in obstacles:
 		obs.queue_free()
