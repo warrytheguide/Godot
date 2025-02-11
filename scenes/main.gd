@@ -1,12 +1,8 @@
 extends Node
 
-#preload obstacles
-var bear_scene = preload("res://scenes/bear.tscn")
-var bush_scene = preload("res://scenes/bush.tscn")
-var honey_scene = preload("res://scenes/honey.tscn")
-var apple_scene = preload("res://scenes/apple.tscn")
-var obstacle_types := [apple_scene, bear_scene, bush_scene, honey_scene]
 var obstacles : Array
+
+@export var obstacle_types: Array[Resource] = []
 
 #game variables
 const Player_POS := Vector2i(200, 510)

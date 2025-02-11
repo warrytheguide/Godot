@@ -18,6 +18,9 @@ var hearts_list: Array[TextureRect]
 var jump_time = 0
 var is_jumping = false
 var double_jump = false
+var drop_through = false
+var drop_timer = 0.0
+const DROP_DELAY = 0.04  # Adjust this value as needed
 
 var is_honeyed: bool = false
 var honeyed_buff_timer: Timer = null
@@ -72,6 +75,20 @@ func _physics_process(delta):
 			end_jump()
 			
 	$StatusEffects/DoubleJump.visible = double_jump
+	
+	if Input.is_action_just_pressed("ui_down") and is_on_floor():
+		drop_through = true
+		$CollisionShape2D.set_deferred("disabled", true)  # Disable collision safely
+		drop_timer = DROP_DELAY
+	
+	# Count down the drop timer
+	if drop_timer > 0:
+		drop_timer -= delta
+	
+	# Re-enable collision after the delay or when no longer falling
+	if drop_through and (drop_timer <= 0 or velocity.y == 0):
+		$CollisionShape2D.set_deferred("disabled", false)
+		drop_through = false
 	
 	move_and_slide()
 
