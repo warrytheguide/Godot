@@ -3,7 +3,9 @@ extends Node
 #preload obstacles
 var bear_scene = preload("res://scenes/bear.tscn")
 var bush_scene = preload("res://scenes/bush.tscn")
-var obstacle_types := [bear_scene, bush_scene]
+var honey_scene = preload("res://scenes/honey.tscn")
+var apple_scene = preload("res://scenes/apple.tscn")
+var obstacle_types := [apple_scene, bear_scene, bush_scene, honey_scene]
 var obstacles : Array
 
 #game variables
@@ -20,7 +22,8 @@ var last_obs
 var spawn_speed: float = 3.0  # Time between spawns in seconds
 var spawn_timer: float = 0.0
 
-signal health_reset
+signal new_game_signal
+signal game_over_signal
 
 func _ready():
 	Engine.max_fps = 120
@@ -28,8 +31,9 @@ func _ready():
 	$GameOver.get_node("Button2").pressed.connect(new_game)
 	$GameOver.get_node("Button").pressed.connect(restart_game)
 	$HUD.get_node("Button").pressed.connect(start_game)
-	$Player.connect("died", game_over)
-	$Player.connect("delete_body", remove_obs)
+	$Player.connect("died_signal", game_over)
+	$Player.connect("delete_body_signal", remove_obs)
+	$Player.connect("kill_score_signal", kill_score)
 	new_game()
 
 func new_game():
@@ -38,7 +42,7 @@ func new_game():
 	game_running = false
 	get_tree().paused = false
 	difficulty = 0
-	health_reset.emit()
+	new_game_signal.emit()
 	
 	for obs in obstacles:
 		obs.queue_free()
@@ -52,7 +56,7 @@ func new_game():
 	$GameOver.hide()
 
 func _process(delta):
-	print(Engine.get_frames_per_second())
+	
 	if game_running:
 		# Update spawn timer
 		spawn_timer += delta
@@ -83,6 +87,13 @@ func start_game():
 	game_running = true
 	$HUD.get_node("Button").hide()
 	$HUD.get_node("BlackBackground").hide()
+	
+func game_over():
+	check_high_score()
+	get_tree().paused = true
+	game_running = false
+	$GameOver.show()
+	emit_signal("game_over_signal")
 
 func generate_obs():
 	var obs_type = obstacle_types[randi() % obstacle_types.size()]
@@ -115,9 +126,5 @@ func check_high_score():
 		high_score = score
 		$HUD.get_node("HighScoreLabel").text = "HIGH SCORE: " + str(high_score / SCORE_MODIFIER)
 
-
-func game_over():
-	check_high_score()
-	get_tree().paused = true
-	game_running = false
-	$GameOver.show()
+func kill_score(amount: float):
+	score += amount

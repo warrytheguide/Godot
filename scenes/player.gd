@@ -1,50 +1,174 @@
 extends CharacterBody2D
 
-signal died
-signal delete_body(body)
+signal died_signal
+signal delete_body_signal(body)
+signal kill_score_signal(amount)
 
-const GRAVITY: int = 2500
-const JUMP_SPEED: int = -1100
 const MAX_HEALTH: int = 3
+const BUFF_DURATION: float = 10
+const KILL_SCORE: float = 100
+const JUMP_FORCE = -700  # Adjust this value as needed
+const JUMP_CUT = 0.6     # How much to cut the jump when button is released
+const GRAVITY = 2500      # Adjust as needed
+const MAX_JUMP_TIME = 0.3  # Maximum time the jump can be held (in seconds)
 
 var health: int = MAX_HEALTH
 var hearts_list: Array[TextureRect]
 
+var jump_time = 0
+var is_jumping = false
+var double_jump = false
+
+var is_honeyed: bool = false
+var honeyed_buff_timer: Timer = null
+var is_appled: bool = false
+var appled_buff_timer: Timer = null
+
 @onready var collision_area = $Area2D
 
 func _ready():
+	
 	collision_area.body_entered.connect(_on_body_entered)
+	
 	var hearts_parent = $HealthBar/HBoxContainer
-	get_parent().connect("health_reset", update_heart_display)
+	
+	get_parent().connect("new_game_signal", new_game)
+	get_parent().connect("game_over_signal", game_over)
+	
 	for child in hearts_parent.get_children():
 		hearts_list.append(child)
+		
+	if not honeyed_buff_timer:
+		honeyed_buff_timer = Timer.new()
+		honeyed_buff_timer.one_shot = true
+		add_child(honeyed_buff_timer)
+		
+	if not appled_buff_timer:
+		appled_buff_timer = Timer.new()
+		appled_buff_timer.one_shot = true
+		add_child(appled_buff_timer)
 
 func _physics_process(delta):
 	velocity.y += GRAVITY * delta
-	if is_on_floor() and Input.is_action_pressed("ui_accept"):
-		velocity.y = JUMP_SPEED
+	
+	if is_on_floor():
+		is_jumping = false
+	
+	if Input.is_action_just_pressed("ui_accept"):
+		if is_on_floor():
+			start_jump()
+		elif double_jump:
+			start_jump()
+			double_jump = false
+	
+	if is_jumping:
+		if Input.is_action_pressed("ui_accept"):
+			jump_time += delta
+			if jump_time <= MAX_JUMP_TIME:
+				velocity.y = JUMP_FORCE
+			else:
+				end_jump()
+		else:
+			end_jump()
+			
+	$StatusEffects/DoubleJump.visible = double_jump
+	
 	move_and_slide()
+
+func start_jump():
+	velocity.y = JUMP_FORCE
+	is_jumping = true
+	jump_time = 0
+
+func end_jump():
+	is_jumping = false
+	if velocity.y < 0:
+		velocity.y *= JUMP_CUT
 
 func _on_body_entered(body):
 	match body.name:
+		
 		"Bear":
-			take_damage(1)
-			emit_signal("delete_body", body)
+			if(is_honeyed):
+				emit_signal("kill_score_signal", KILL_SCORE)
+			else:
+				take_damage(1)
+			emit_signal("delete_body_signal", body)
+			
 		"Bush":
-			take_damage(1)
-			emit_signal("delete_body", body)
-	
+			if(is_appled):
+				emit_signal("kill_score_signal", KILL_SCORE)
+			else:
+				take_damage(1)
+			emit_signal("delete_body_signal", body)
+			
+		"Honey":
+			heal(1)
+			honeyed()
+			emit_signal("delete_body_signal", body)
+			
+		"Apple":
+			appled()
+			emit_signal("delete_body_signal", body)
+			
 	
 func take_damage(amount: int):
 	health -= amount
 	update_heart_display()
 	if health <= 0:
 		health = 3
-		died.emit()
+		died_signal.emit()
 
 func heal(amount: int):
-	pass
+	if(health + amount < MAX_HEALTH):
+		health += amount
+	else:
+		health = MAX_HEALTH
+	update_heart_display()
 	
 func update_heart_display():
 	for i in range(hearts_list.size()):
 		hearts_list[i].visible = i < health
+		
+func new_game():
+	update_heart_display()
+
+func game_over():
+	end_appled()
+	end_appled()
+	
+	
+	
+func honeyed():
+	is_honeyed = true
+	$StatusEffects/Honeyed.visible = true
+
+	if honeyed_buff_timer.is_stopped() == false:
+		honeyed_buff_timer.stop()
+
+	honeyed_buff_timer.start(BUFF_DURATION)
+
+	if not honeyed_buff_timer.is_connected("timeout", Callable(self, "end_honeyed")):
+		honeyed_buff_timer.connect("timeout", Callable(self, "end_honeyed"))
+
+func end_honeyed():
+	is_honeyed = false
+	$StatusEffects/Honeyed.visible = false
+	
+func appled():
+	is_appled = true
+	$StatusEffects/Appled.visible = true
+	double_jump = true
+	
+	
+	if appled_buff_timer.is_stopped() == false:
+		appled_buff_timer.stop()
+
+	appled_buff_timer.start(BUFF_DURATION)
+
+	if not appled_buff_timer.is_connected("timeout", Callable(self, "end_appled")):
+		appled_buff_timer.connect("timeout", Callable(self, "end_appled"))
+
+func end_appled():
+	is_appled = false
+	$StatusEffects/Appled.visible = false
