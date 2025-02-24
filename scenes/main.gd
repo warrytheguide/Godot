@@ -11,7 +11,7 @@ const MAX_DIFFICULTY : int = 2
 var score : float
 const SCORE_MODIFIER : float = 40
 var high_score : int
-const OBSTACLE_SPEED : float = 6.0  # Constant speed for obstacles
+const OBSTACLE_SPEED : float = 5.0  # Constant speed for obstacles
 var screen_size : Vector2i
 var game_running : bool
 var last_obs
@@ -65,8 +65,9 @@ func _process(delta):
 		
 		# Move obstacles at constant speed
 		for obs in obstacles:
-			obs.position.x -= OBSTACLE_SPEED
-		
+			if not obs.has_node("Bat"):
+				obs.position.x -= OBSTACLE_SPEED
+				
 		score += SCORE_MODIFIER/100
 		show_score()
 		
@@ -99,6 +100,10 @@ func generate_obs():
 	var obs_x : int = screen_size.x
 	var obs_y : int = Player_POS.y + 5  # Align with Player's feet
 	last_obs = obs
+	
+	if obs.has_node("Bat"):
+		obs.connect("hit_player", Callable(self, "_on_bat_hit_player"))
+	
 	add_obs(obs, obs_x, obs_y)
 	
 
@@ -124,3 +129,6 @@ func check_high_score():
 
 func kill_score(amount: float):
 	score += amount
+	
+func _on_bat_hit_player():
+	$Player.take_damage(1)

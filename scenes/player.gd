@@ -103,6 +103,7 @@ func end_jump():
 		velocity.y *= JUMP_CUT
 
 func _on_body_entered(body):
+	print(body.name)
 	match body.name:
 		
 		"Bear":
@@ -117,6 +118,10 @@ func _on_body_entered(body):
 				emit_signal("kill_score_signal", KILL_SCORE)
 			else:
 				take_damage(1)
+			emit_signal("delete_body_signal", body)
+		
+		"Bat":
+			take_damage(1)
 			emit_signal("delete_body_signal", body)
 			
 		"Honey":
