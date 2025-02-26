@@ -2,21 +2,27 @@ extends Node
 
 var obstacles : Array
 
-@export var obstacle_types: Array[Resource] = []
+@export var spawner_one: Array[Resource] = []
+@export var spawner_two: Array[Resource] = []
+@export var spawner_three: Array[Resource] = []
 
-#game variables
+
 const Player_POS := Vector2i(200, 510)
-var difficulty
-const MAX_DIFFICULTY : int = 2
 var score : float
-const SCORE_MODIFIER : float = 40
 var high_score : int
-const OBSTACLE_SPEED : float = 5.0  # Constant speed for obstacles
+
 var screen_size : Vector2i
 var game_running : bool
 var last_obs
-var spawn_speed: float = 3.0  # Time between spawns in seconds
+var spawn_speed: float = 3.0
 var spawn_timer: float = 0.0
+var game_phase = 1
+
+const OBSTACLE_SPEED : float = 5.0
+const SCORE_MODIFIER : float = 40
+const PHASE_TWO_SCORE = 1000
+const PHASE_THREE_SCORE = 2000
+const PHASE_FOUR_SCORE = 3000
 
 signal new_game_signal
 signal game_over_signal
@@ -37,7 +43,6 @@ func new_game():
 	show_score()
 	game_running = false
 	get_tree().paused = false
-	difficulty = 0
 	new_game_signal.emit()
 	
 	for obs in obstacles:
@@ -50,6 +55,11 @@ func new_game():
 	$HUD.get_node("Button").show()
 	$HUD.get_node("BlackBackground").show()
 	$GameOver.hide()
+	
+	$Platform1.set_process_mode(Node.PROCESS_MODE_DISABLED)
+	$Platform1.visible = false
+	$Platform2.set_process_mode(Node.PROCESS_MODE_DISABLED)
+	$Platform2.visible = false
 
 func _process(delta):
 	
@@ -75,7 +85,35 @@ func _process(delta):
 		for obs in obstacles:
 			if obs.position.x < -100:
 				remove_obs(obs)
-
+				
+	if(score > PHASE_FOUR_SCORE):
+		hardmode()
+		match int(fmod(score / 1000, 3)):
+			0:
+				game_phase = 1
+				$Platform1.set_process_mode(Node.PROCESS_MODE_DISABLED)
+				$Platform1.visible = false
+				$Platform2.set_process_mode(Node.PROCESS_MODE_DISABLED)
+				$Platform2.visible = false
+			1:
+				game_phase = 2
+				$Platform1.set_process_mode(Node.PROCESS_MODE_INHERIT)
+				$Platform1.visible = true
+			2:
+				game_phase = 3
+				$Platform2.set_process_mode(Node.PROCESS_MODE_INHERIT)
+				$Platform2.visible = true
+				
+	elif(score > PHASE_THREE_SCORE):
+		game_phase = 3
+		$Platform2.set_process_mode(Node.PROCESS_MODE_INHERIT)
+		$Platform2.visible = true
+	
+	elif (score > PHASE_TWO_SCORE):
+		game_phase = 2
+		$Platform1.set_process_mode(Node.PROCESS_MODE_INHERIT)
+		$Platform1.visible = true
+		
 func restart_game():
 	new_game()
 	start_game()
@@ -93,7 +131,16 @@ func game_over():
 	emit_signal("game_over_signal")
 
 func generate_obs():
-	var obs_type = obstacle_types[randi() % obstacle_types.size()]
+	
+	var obs_type
+	match game_phase:
+		1:
+			obs_type = spawner_one[randi() % spawner_one.size()]
+		2:
+			obs_type = spawner_two[randi() % spawner_two.size()]
+		3:
+			obs_type = spawner_three[randi() % spawner_three.size()]
+			
 	var obs = obs_type.instantiate()
 	var obs_height = obs.get_node("Sprite2D").texture.get_height()
 	var obs_scale = obs.get_node("Sprite2D").scale
@@ -126,6 +173,9 @@ func check_high_score():
 	if score > high_score:
 		high_score = score
 		$HUD.get_node("HighScoreLabel").text = "HIGH SCORE: " + str(high_score / SCORE_MODIFIER)
+
+func hardmode():
+	pass
 
 func kill_score(amount: float):
 	score += amount
