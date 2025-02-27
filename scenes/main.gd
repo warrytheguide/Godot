@@ -119,9 +119,11 @@ func restart_game():
 	start_game()
 
 func start_game():
+	game_phase = 1
 	game_running = true
 	$HUD.get_node("Button").hide()
 	$HUD.get_node("BlackBackground").hide()
+	
 	
 func game_over():
 	check_high_score()
