@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://bhtein0chknfn"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_1stpw"]
-[ext_resource type="Texture2D" uid="uid://brkfmxotnemb8" path="res://assets/img/Sprite-0002.png" id="2_htpko"]
-[ext_resource type="Texture2D" uid="uid://tbuni7xig15l" path="res://assets/img/heartempty.png" id="3_v5b2q"]
-[ext_resource type="Texture2D" uid="uid://bn0sqm8aeqvt4" path="res://assets/img/heartfull.png" id="4_osd7e"]
-[ext_resource type="FontFile" uid="uid://s15272omc2m3" path="res://assets/fonts/retro.ttf" id="5_3xex7"]
-[ext_resource type="Texture2D" uid="uid://uimr4jcmjhxs" path="res://assets/img/doublejump.png" id="6_y0xaw"]
+[ext_resource type="Texture2D" uid="uid://brkfmxotnemb8" path="res://assets/img/Sprite-0002.png" id="2_430w4"]
+[ext_resource type="Texture2D" uid="uid://tbuni7xig15l" path="res://assets/img/heartempty.png" id="3_p0gd7"]
+[ext_resource type="Texture2D" uid="uid://bn0sqm8aeqvt4" path="res://assets/img/heartfull.png" id="4_xdil0"]
+[ext_resource type="FontFile" uid="uid://s15272omc2m3" path="res://assets/fonts/retro.ttf" id="5_m0h7y"]
+[ext_resource type="Texture2D" uid="uid://uimr4jcmjhxs" path="res://assets/img/doublejump.png" id="6_ismm2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_whux2"]
 size = Vector2(13.5, 12)
@@ -22,7 +22,7 @@ script = ExtResource("1_1stpw")
 texture_filter = 1
 position = Vector2(-8.8125, -5.5625)
 scale = Vector2(0.449219, 0.449219)
-texture = ExtResource("2_htpko")
+texture = ExtResource("2_430w4")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 2
@@ -47,17 +47,17 @@ offset_bottom = 40.0
 [node name="EmptyHeart" type="Sprite2D" parent="HealthBar/HBoxContainer"]
 position = Vector2(8, 0)
 scale = Vector2(3.5, 3)
-texture = ExtResource("3_v5b2q")
+texture = ExtResource("3_p0gd7")
 
 [node name="EmptyHeart2" type="Sprite2D" parent="HealthBar/HBoxContainer"]
 position = Vector2(89, 0)
 scale = Vector2(3.5, 3)
-texture = ExtResource("3_v5b2q")
+texture = ExtResource("3_p0gd7")
 
 [node name="EmptyHeart3" type="Sprite2D" parent="HealthBar/HBoxContainer"]
 position = Vector2(170, 0)
 scale = Vector2(3.5, 3)
-texture = ExtResource("3_v5b2q")
+texture = ExtResource("3_p0gd7")
 
 [node name="Heart" type="TextureRect" parent="HealthBar/HBoxContainer"]
 custom_minimum_size = Vector2(77.445, 0)
@@ -66,7 +66,7 @@ layout_mode = 2
 [node name="FullHeart" type="Sprite2D" parent="HealthBar/HBoxContainer/Heart"]
 position = Vector2(8, 0)
 scale = Vector2(3.5, 3)
-texture = ExtResource("4_osd7e")
+texture = ExtResource("4_xdil0")
 
 [node name="Heart2" type="TextureRect" parent="HealthBar/HBoxContainer"]
 custom_minimum_size = Vector2(77.445, 0)
@@ -75,7 +75,7 @@ layout_mode = 2
 [node name="FullHeart" type="Sprite2D" parent="HealthBar/HBoxContainer/Heart2"]
 position = Vector2(8, 0)
 scale = Vector2(3.5, 3)
-texture = ExtResource("4_osd7e")
+texture = ExtResource("4_xdil0")
 
 [node name="Heart3" type="TextureRect" parent="HealthBar/HBoxContainer"]
 custom_minimum_size = Vector2(77.445, 0)
@@ -84,34 +84,52 @@ layout_mode = 2
 [node name="FullHeart" type="Sprite2D" parent="HealthBar/HBoxContainer/Heart3"]
 position = Vector2(8, 0)
 scale = Vector2(3.5, 3)
-texture = ExtResource("4_osd7e")
+texture = ExtResource("4_xdil0")
 
 [node name="StatusEffects" type="CanvasLayer" parent="."]
 
 [node name="Honeyed" type="Label" parent="StatusEffects"]
 visible = false
-offset_left = 334.0
-offset_top = 14.0
-offset_right = 784.0
-offset_bottom = 88.0
+offset_left = 346.0
+offset_top = 17.0
+offset_right = 796.0
+offset_bottom = 91.0
 theme_override_colors/font_color = Color(0.85098, 0.827451, 0, 1)
-theme_override_fonts/font = ExtResource("5_3xex7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_m0h7y")
 theme_override_font_sizes/font_size = 24
 text = "MÉZ HATÁSA ALATT VAGY!"
 
 [node name="Appled" type="Label" parent="StatusEffects"]
 visible = false
-offset_left = 323.0
-offset_top = 50.0
-offset_right = 773.0
-offset_bottom = 124.0
+offset_left = 346.0
+offset_top = 64.0
+offset_right = 796.0
+offset_bottom = 138.0
 theme_override_colors/font_color = Color(1, 0.0313726, 0, 1)
-theme_override_fonts/font = ExtResource("5_3xex7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_m0h7y")
 theme_override_font_sizes/font_size = 24
 text = "ALMA HATÁSA ALATT VAGY!"
+
+[node name="Fired" type="Label" parent="StatusEffects"]
+visible = false
+offset_left = 319.0
+offset_top = 107.0
+offset_right = 769.0
+offset_bottom = 181.0
+theme_override_colors/font_color = Color(1, 0.490196, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_m0h7y")
+theme_override_font_sizes/font_size = 24
+text = "ÉPP ÉGSZ!"
+horizontal_alignment = 1
 
 [node name="DoubleJump" type="Sprite2D" parent="StatusEffects"]
 visible = false
 position = Vector2(66.45, 149.075)
 scale = Vector2(5, 5)
-texture = ExtResource("6_y0xaw")
+texture = ExtResource("6_ismm2")

@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://6ts5jchxcggo"]
+
+[ext_resource type="Script" path="res://scenes/dragon.gd" id="1_smk7k"]
+[ext_resource type="Texture2D" uid="uid://jeebmy2umk18" path="res://assets/img/background/realground.png" id="2_nx7cs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5g8xr"]
+size = Vector2(77, 74)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4pa8k"]
+size = Vector2(82.125, 75)
+
+[node name="Dragon" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_smk7k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0.638955, 1.34766e-06, 1)
+position = Vector2(35.0812, 35.4768)
+scale = Vector2(0.114805, 0.108363)
+texture = ExtResource("2_nx7cs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(33.5, 35)
+shape = SubResource("RectangleShape2D_5g8xr")
+disabled = true
+
+[node name="Dragon" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dragon"]
+position = Vector2(34.9375, 35.5)
+shape = SubResource("RectangleShape2D_4pa8k")

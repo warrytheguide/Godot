@@ -36,6 +36,7 @@ func _ready():
 	$Player.connect("died_signal", game_over)
 	$Player.connect("delete_body_signal", remove_obs)
 	$Player.connect("kill_score_signal", kill_score)
+	$Background/Forest.set_deferred("visible", true)
 	new_game()
 
 func new_game():
@@ -75,7 +76,7 @@ func _process(delta):
 		
 		# Move obstacles at constant speed
 		for obs in obstacles:
-			if not obs.has_node("Bat"):
+			if not (obs.has_node("Bat") || obs.has_node("Dragon")):
 				obs.position.x -= OBSTACLE_SPEED
 				
 		score += SCORE_MODIFIER/100
@@ -95,24 +96,34 @@ func _process(delta):
 				$Platform1.visible = false
 				$Platform2.set_process_mode(Node.PROCESS_MODE_DISABLED)
 				$Platform2.visible = false
+				$Background/Hell.set_deferred("visible", false)
+				$Background/Forest.set_deferred("visible", true)
 			1:
 				game_phase = 2
 				$Platform1.set_process_mode(Node.PROCESS_MODE_INHERIT)
 				$Platform1.visible = true
+				$Background/Forest.set_deferred("visible", false)
+				$Background/Castle.set_deferred("visible", true)
 			2:
 				game_phase = 3
 				$Platform2.set_process_mode(Node.PROCESS_MODE_INHERIT)
 				$Platform2.visible = true
+				$Background/Castle.set_deferred("visible", false)
+				$Background/Hell.set_deferred("visible", true)
 				
 	elif(score > PHASE_THREE_SCORE):
 		game_phase = 3
 		$Platform2.set_process_mode(Node.PROCESS_MODE_INHERIT)
 		$Platform2.visible = true
+		$Background/Castle.set_deferred("visible", false)
+		$Background/Hell.set_deferred("visible", true)
 	
 	elif (score > PHASE_TWO_SCORE):
 		game_phase = 2
 		$Platform1.set_process_mode(Node.PROCESS_MODE_INHERIT)
 		$Platform1.visible = true
+		$Background/Forest.set_deferred("visible", false)
+		$Background/Castle.set_deferred("visible", true)
 		
 func restart_game():
 	new_game()
@@ -151,8 +162,11 @@ func generate_obs():
 	last_obs = obs
 	
 	if obs.has_node("Bat"):
-		obs.connect("hit_player", Callable(self, "_on_bat_hit_player"))
-	
+		obs.connect("hit_player", Callable(self, "_on_hit_player"))
+	elif obs.has_node("Dragon"):
+		obs.connect("hit_player", Callable(self, "_on_hit_player"))
+		obs.connect("spawn_obs", Callable(self, "add_obs"))
+		
 	add_obs(obs, obs_x, obs_y)
 	
 
@@ -182,5 +196,5 @@ func hardmode():
 func kill_score(amount: float):
 	score += amount
 	
-func _on_bat_hit_player():
+func _on_hit_player():
 	$Player.take_damage(1)

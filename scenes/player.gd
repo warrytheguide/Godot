@@ -26,6 +26,8 @@ var is_honeyed: bool = false
 var honeyed_buff_timer: Timer = null
 var is_appled: bool = false
 var appled_buff_timer: Timer = null
+var is_fired: bool = false
+var fired_buff_timer: Timer = null
 
 @onready var collision_area = $Area2D
 
@@ -50,7 +52,12 @@ func _ready():
 		appled_buff_timer = Timer.new()
 		appled_buff_timer.one_shot = true
 		add_child(appled_buff_timer)
-
+		
+	if not fired_buff_timer:
+		fired_buff_timer = Timer.new()
+		fired_buff_timer.one_shot = true
+		add_child(fired_buff_timer)
+		
 func _physics_process(delta):
 	velocity.y += GRAVITY * delta
 	
@@ -133,9 +140,19 @@ func _on_body_entered(body):
 			appled()
 			emit_signal("delete_body_signal", body)
 			
+		"Fire":
+			take_damage(1)
+			fired()
+			emit_signal("delete_body_signal", body)
+		
+		"DragonFire":
+			take_damage(1)
+			fired()
+			emit_signal("delete_body_signal", body)
 	
 func take_damage(amount: int):
-	health -= amount
+	
+	health -= amount + (1 if is_fired else 0)
 	update_heart_display()
 	if health <= 0:
 		health = 3
@@ -158,6 +175,7 @@ func new_game():
 func game_over():
 	end_appled()
 	end_appled()
+	end_fired()
 	
 	
 	
@@ -175,11 +193,28 @@ func honeyed():
 
 func end_honeyed():
 	is_honeyed = false
-	$StatusEffects/Honeyed.visible = false
+	$StatusEffects/Honeyed.set_deferred("visible", false)
+	
+func fired():
+	is_fired = true
+	$StatusEffects/Fired.visible = true
+
+	if fired_buff_timer.is_stopped() == false:
+		fired_buff_timer.stop()
+
+	fired_buff_timer.start(BUFF_DURATION)
+
+	if not fired_buff_timer.is_connected("timeout", Callable(self, "end_fired")):
+		fired_buff_timer.connect("timeout", Callable(self, "end_fired"))
+
+func end_fired():
+	print("Hello, World!")
+	is_fired = false
+	$StatusEffects/Fired.set_deferred("visible", false)
 	
 func appled():
 	is_appled = true
-	$StatusEffects/Appled.visible = true
+	$StatusEffects/Appled.set_deferred("visible", false)
 	double_jump = true
 	
 	
