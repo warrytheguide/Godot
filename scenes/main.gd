@@ -14,11 +14,11 @@ var high_score : int
 var screen_size : Vector2i
 var game_running : bool
 var last_obs
-var spawn_speed: float = 3.0
+var spawn_speed: float = 1.7
 var spawn_timer: float = 0.0
 var game_phase = 1
 
-const OBSTACLE_SPEED : float = 5.0
+const OBSTACLE_SPEED : float = 5.7
 const SCORE_MODIFIER : float = 40
 const PHASE_TWO_SCORE = 1000
 const PHASE_THREE_SCORE = 2000
@@ -76,7 +76,7 @@ func _process(delta):
 		
 		# Move obstacles at constant speed
 		for obs in obstacles:
-			if not (obs.has_node("Bat") || obs.has_node("Dragon")):
+			if not obs.is_in_group("alt_speed"):
 				obs.position.x -= OBSTACLE_SPEED
 				
 		score += SCORE_MODIFIER/100
@@ -158,7 +158,7 @@ func generate_obs():
 	var obs_height = obs.get_node("Sprite2D").texture.get_height()
 	var obs_scale = obs.get_node("Sprite2D").scale
 	var obs_x : int = screen_size.x
-	var obs_y : int = Player_POS.y + 5  # Align with Player's feet
+	var obs_y : int = Player_POS.y - 10
 	last_obs = obs
 	
 	if obs.has_node("Bat"):
@@ -166,11 +166,15 @@ func generate_obs():
 	elif obs.has_node("Dragon"):
 		obs.connect("hit_player", Callable(self, "_on_hit_player"))
 		obs.connect("spawn_obs", Callable(self, "add_obs"))
+	elif obs.has_node("Knight"):
+		obs.connect("spawn_obs", Callable(self, "add_obs"))
 		
 	add_obs(obs, obs_x, obs_y)
 	
 
 func add_obs(obs, x, y):
+	if(obs.has_node("Sword")):
+		y = $Player.position.y - 50
 	obs.position = Vector2i(x, y)
 	# Remove this line as we're handling collision through the player's Area2D
 	# obs.body_entered.connect(hit_obs)  

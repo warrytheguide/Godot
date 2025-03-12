@@ -5,7 +5,7 @@ signal delete_body_signal(body)
 signal kill_score_signal(amount)
 
 const MAX_HEALTH: int = 3
-const BUFF_DURATION: float = 10
+const BUFF_DURATION: float = 6
 const KILL_SCORE: float = 100
 const JUMP_FORCE = -700  # Adjust this value as needed
 const JUMP_CUT = 0.6     # How much to cut the jump when button is released
@@ -149,6 +149,15 @@ func _on_body_entered(body):
 			take_damage(1)
 			fired()
 			emit_signal("delete_body_signal", body)
+			
+		"Knight":
+			take_damage(1)
+			emit_signal("delete_body_signal", body)
+		
+		"Sword":
+			take_damage(1)
+			emit_signal("delete_body_signal", body)
+			
 	
 func take_damage(amount: int):
 	
@@ -214,7 +223,7 @@ func end_fired():
 	
 func appled():
 	is_appled = true
-	$StatusEffects/Appled.set_deferred("visible", false)
+	$StatusEffects/Appled.set_deferred("visible", true)
 	double_jump = true
 	
 	

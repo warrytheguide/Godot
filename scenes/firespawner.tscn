@@ -6,7 +6,7 @@ size = Vector2(14.5, 90.25)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qk276"]
 size = Vector2(13.875, 91.125)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="FireSpawner" type="CharacterBody2D"]
 z_index = 1
 scale = Vector2(8, 8)
 

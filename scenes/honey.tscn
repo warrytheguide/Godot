@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8mbuy0c1wtga"]
+[gd_scene load_steps=3 format=3 uid="uid://c8mbuy0c1wtga"]
 
-[ext_resource type="Script" path="res://scenes/bush.gd" id="1_3dpxo"]
 [ext_resource type="Texture2D" uid="uid://cecfg26w7s1di" path="res://assets/img/honey.png" id="2_pns68"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
@@ -9,7 +8,6 @@ size = Vector2(40.5405, 60.473)
 [node name="Honey" type="StaticBody2D"]
 scale = Vector2(1.48, 1.48)
 collision_layer = 2
-script = ExtResource("1_3dpxo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcdnpxivf08ir"]
+
+[ext_resource type="Script" path="res://scenes/knight.gd" id="1_ajkp2"]
+[ext_resource type="Texture2D" uid="uid://jeebmy2umk18" path="res://assets/img/background/realground.png" id="2_u10i8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fx408"]
+size = Vector2(46.8902, 157.317)
+
+[node name="Knight" type="StaticBody2D"]
+scale = Vector2(1.64, 1.64)
+collision_layer = 2
+script = ExtResource("1_ajkp2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.212721, 0.283758, 0.272706, 1)
+texture_filter = 1
+position = Vector2(-1.52439, -14.3293)
+scale = Vector2(0.0692496, 0.223834)
+texture = ExtResource("2_u10i8")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1.55488, -15.8629)
+shape = SubResource("RectangleShape2D_fx408")
+
+[node name="Knight" type="CollisionShape2D" parent="."]
+position = Vector2(-1.82927, -14.0244)
+shape = SubResource("RectangleShape2D_fx408")

@@ -41,4 +41,4 @@ func _on_body_entered(body):
 		$Dragon.set_deferred("monitorable", false)
 	elif body.name == "FireSpawner":
 		var fire = load("res://scenes/dragonfire.tscn").instantiate()
-		emit_signal("spawn_obs", fire, 700, 300)
+		emit_signal("spawn_obs", fire, 800, 300)

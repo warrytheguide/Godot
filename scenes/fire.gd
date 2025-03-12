@@ -8,3 +8,7 @@ func _ready():
 	initial_y = 340 if randf() < 0.5 else 520
 	global_position.y = initial_y
 	
+var speed = 850
+
+func _process(delta):
+	position.x -= speed * delta
