@@ -28,6 +28,7 @@ var is_appled: bool = false
 var appled_buff_timer: Timer = null
 var is_fired: bool = false
 var fired_buff_timer: Timer = null
+var is_sworded: bool = false
 
 @onready var collision_area = $Area2D
 
@@ -116,6 +117,9 @@ func _on_body_entered(body):
 		"Bear":
 			if(is_honeyed):
 				emit_signal("kill_score_signal", KILL_SCORE)
+			elif(is_sworded):
+				emit_signal("kill_score_signal", KILL_SCORE)
+				end_sworded()
 			else:
 				take_damage(1)
 			emit_signal("delete_body_signal", body)
@@ -127,9 +131,6 @@ func _on_body_entered(body):
 				take_damage(1)
 			emit_signal("delete_body_signal", body)
 		
-		"Bat":
-			take_damage(1)
-			emit_signal("delete_body_signal", body)
 			
 		"Honey":
 			heal(1)
@@ -139,6 +140,7 @@ func _on_body_entered(body):
 		"Apple":
 			appled()
 			emit_signal("delete_body_signal", body)
+		
 			
 		"Fire":
 			take_damage(1)
@@ -149,14 +151,24 @@ func _on_body_entered(body):
 			take_damage(1)
 			fired()
 			emit_signal("delete_body_signal", body)
+		
 			
 		"Knight":
-			take_damage(1)
+			if(is_sworded):
+				emit_signal("kill_score_signal", KILL_SCORE)
+				end_sworded()
+			else:
+				take_damage(1)
 			emit_signal("delete_body_signal", body)
 		
 		"Sword":
 			take_damage(1)
 			emit_signal("delete_body_signal", body)
+			
+		"SwordBuff":
+			sworded()
+			emit_signal("delete_body_signal", body)
+		
 			
 	
 func take_damage(amount: int):
@@ -185,6 +197,7 @@ func game_over():
 	end_appled()
 	end_appled()
 	end_fired()
+	end_sworded()
 	
 	
 	
@@ -238,3 +251,11 @@ func appled():
 func end_appled():
 	is_appled = false
 	$StatusEffects/Appled.visible = false
+	
+func sworded():
+	is_sworded = true
+	$StatusEffects/Sworded.set_deferred("visible", true)
+
+func end_sworded():
+	is_sworded = false
+	$StatusEffects/Sworded.visible = false

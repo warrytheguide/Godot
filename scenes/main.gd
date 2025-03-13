@@ -201,4 +201,8 @@ func kill_score(amount: float):
 	score += amount
 	
 func _on_hit_player():
-	$Player.take_damage(1)
+	if($Player.is_sworded):
+		kill_score(100)
+		$Player.end_sworded()
+	else:
+		$Player.take_damage(1)

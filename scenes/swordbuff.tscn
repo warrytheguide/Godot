@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxi3t273lnfa8"]
+
+[ext_resource type="Texture2D" uid="uid://jeebmy2umk18" path="res://assets/img/background/realground.png" id="1_jhxjq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
+size = Vector2(12.7534, 51.0663)
+
+[node name="SwordBuff" type="StaticBody2D"]
+scale = Vector2(1.48, 1.48)
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.687215, 0.687215, 0.687215, 1)
+texture_filter = 1
+position = Vector2(-2.1858, 4.89942)
+scale = Vector2(0.0184066, 0.0726534)
+texture = ExtResource("1_jhxjq")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-2.61824, 4.72973)
+shape = SubResource("RectangleShape2D_4q30l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.32263, 4.5872)
+shape = SubResource("RectangleShape2D_4q30l")

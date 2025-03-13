@@ -128,6 +128,20 @@ theme_override_font_sizes/font_size = 24
 text = "ÉPP ÉGSZ!"
 horizontal_alignment = 1
 
+[node name="Sworded" type="Label" parent="StatusEffects"]
+visible = false
+offset_left = 319.0
+offset_top = 144.0
+offset_right = 769.0
+offset_bottom = 218.0
+theme_override_colors/font_color = Color(0.837086, 0.883526, 0.851074, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_m0h7y")
+theme_override_font_sizes/font_size = 24
+text = "VAN EGY KARDOD!"
+horizontal_alignment = 1
+
 [node name="DoubleJump" type="Sprite2D" parent="StatusEffects"]
 visible = false
 position = Vector2(93, 117)
