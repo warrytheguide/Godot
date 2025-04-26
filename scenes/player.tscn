@@ -103,10 +103,10 @@ text = "MÉZ HATÁSA ALATT VAGY!"
 
 [node name="Appled" type="Label" parent="StatusEffects"]
 visible = false
-offset_left = 346.0
-offset_top = 64.0
-offset_right = 796.0
-offset_bottom = 138.0
+offset_left = 347.0
+offset_top = 55.0
+offset_right = 797.0
+offset_bottom = 129.0
 theme_override_colors/font_color = Color(1, 0.0313726, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 7
@@ -116,10 +116,10 @@ text = "ALMA HATÁSA ALATT VAGY!"
 
 [node name="Fired" type="Label" parent="StatusEffects"]
 visible = false
-offset_left = 319.0
-offset_top = 107.0
-offset_right = 769.0
-offset_bottom = 181.0
+offset_left = 314.0
+offset_top = 88.0
+offset_right = 764.0
+offset_bottom = 162.0
 theme_override_colors/font_color = Color(1, 0.490196, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 7
@@ -130,16 +130,30 @@ horizontal_alignment = 1
 
 [node name="Sworded" type="Label" parent="StatusEffects"]
 visible = false
-offset_left = 319.0
-offset_top = 144.0
-offset_right = 769.0
-offset_bottom = 218.0
+offset_left = 314.0
+offset_top = 125.0
+offset_right = 764.0
+offset_bottom = 199.0
 theme_override_colors/font_color = Color(0.837086, 0.883526, 0.851074, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 7
 theme_override_fonts/font = ExtResource("5_m0h7y")
 theme_override_font_sizes/font_size = 24
 text = "VAN EGY KARDOD!"
+horizontal_alignment = 1
+
+[node name="Crowned" type="Label" parent="StatusEffects"]
+visible = false
+offset_left = 316.0
+offset_top = 162.0
+offset_right = 766.0
+offset_bottom = 236.0
+theme_override_colors/font_color = Color(0.56987, 1, 0.205433, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_m0h7y")
+theme_override_font_sizes/font_size = 24
+text = "MEG VAGY KORONÁZVA!"
 horizontal_alignment = 1
 
 [node name="DoubleJump" type="Sprite2D" parent="StatusEffects"]

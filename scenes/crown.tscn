@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxtn5326c2f47"]
+
+[ext_resource type="Texture2D" uid="uid://c6gwp1ts8l2n" path="res://assets/img/crown.png" id="1_wvbu2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
+size = Vector2(53.3678, 39.8649)
+
+[node name="Crown" type="StaticBody2D"]
+scale = Vector2(1.48, 1.48)
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-4.76837e-07, 0)
+scale = Vector2(2.01376, 2.10266)
+texture = ExtResource("1_wvbu2")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.0105568, -4.8685)
+shape = SubResource("RectangleShape2D_4q30l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.33256, -5.06757)
+shape = SubResource("RectangleShape2D_4q30l")

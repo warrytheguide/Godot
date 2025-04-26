@@ -29,6 +29,8 @@ var appled_buff_timer: Timer = null
 var is_fired: bool = false
 var fired_buff_timer: Timer = null
 var is_sworded: bool = false
+var is_crowned: bool = false
+var crowned_buff_timer: Timer = null
 
 @onready var collision_area = $Area2D
 
@@ -58,6 +60,11 @@ func _ready():
 		fired_buff_timer = Timer.new()
 		fired_buff_timer.one_shot = true
 		add_child(fired_buff_timer)
+	
+	if not crowned_buff_timer:
+		crowned_buff_timer = Timer.new()
+		crowned_buff_timer.one_shot = true
+		add_child(crowned_buff_timer)
 		
 func _physics_process(delta):
 	velocity.y += GRAVITY * delta
@@ -154,19 +161,37 @@ func _on_body_entered(body):
 		
 			
 		"Knight":
-			if(is_sworded):
+			
+			if(is_crowned):
+				emit_signal("kill_score_signal", KILL_SCORE)
+			
+			elif(is_sworded):
 				emit_signal("kill_score_signal", KILL_SCORE)
 				end_sworded()
+				
 			else:
 				take_damage(1)
 			emit_signal("delete_body_signal", body)
 		
 		"Sword":
-			take_damage(1)
+			
+			if(is_crowned):
+				emit_signal("kill_score_signal", KILL_SCORE)
+			
+			elif(is_sworded):
+				emit_signal("kill_score_signal", KILL_SCORE)
+				end_sworded()
+				
+			else:
+				take_damage(1)
 			emit_signal("delete_body_signal", body)
 			
 		"SwordBuff":
 			sworded()
+			emit_signal("delete_body_signal", body)
+		
+		"Crown":
+			crowned()
 			emit_signal("delete_body_signal", body)
 		
 			
@@ -259,3 +284,19 @@ func sworded():
 func end_sworded():
 	is_sworded = false
 	$StatusEffects/Sworded.visible = false
+	
+func crowned():
+	is_crowned = true
+	$StatusEffects/Crowned.set_deferred("visible", true)
+	
+	if crowned_buff_timer.is_stopped() == false:
+		crowned_buff_timer.stop()
+
+	crowned_buff_timer.start(BUFF_DURATION)
+
+	if not crowned_buff_timer.is_connected("timeout", Callable(self, "end_crowned")):
+		crowned_buff_timer.connect("timeout", Callable(self, "end_crowned"))
+
+func end_crowned():
+	is_crowned = false
+	$StatusEffects/Crowned.visible = false

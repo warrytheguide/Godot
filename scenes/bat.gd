@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var horizontal_speed = 250.0
+@export var horizontal_speed = 550.0
 @export var vertical_amplitude = 100.0
 @export var vertical_frequency = 3.0
 
