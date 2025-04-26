@@ -119,6 +119,12 @@ func end_jump():
 
 func _on_body_entered(body):
 	print(body.name)
+	
+	if(body.is_in_group("bugged_hitbox")): #valamiért néha rossz névvel spawnol be a DragonFire
+		take_damage(1)
+		fired()
+		emit_signal("delete_body_signal", body)
+		
 	match body.name:
 		
 		"Bear":
@@ -129,14 +135,14 @@ func _on_body_entered(body):
 				end_sworded()
 			else:
 				take_damage(1)
-			emit_signal("delete_body_signal", body)
+				emit_signal("delete_body_signal", body)
 			
 		"Bush":
 			if(is_appled):
 				emit_signal("kill_score_signal", KILL_SCORE)
 			else:
 				take_damage(1)
-			emit_signal("delete_body_signal", body)
+				emit_signal("delete_body_signal", body)
 		
 			
 		"Honey":
@@ -154,11 +160,6 @@ func _on_body_entered(body):
 			fired()
 			emit_signal("delete_body_signal", body)
 		
-		"DragonFire":
-			take_damage(1)
-			fired()
-			emit_signal("delete_body_signal", body)
-		
 			
 		"Knight":
 			
@@ -171,7 +172,7 @@ func _on_body_entered(body):
 				
 			else:
 				take_damage(1)
-			emit_signal("delete_body_signal", body)
+				emit_signal("delete_body_signal", body)
 		
 		"Sword":
 			
@@ -184,7 +185,7 @@ func _on_body_entered(body):
 				
 			else:
 				take_damage(1)
-			emit_signal("delete_body_signal", body)
+				emit_signal("delete_body_signal", body)
 			
 		"SwordBuff":
 			sworded()
@@ -194,7 +195,15 @@ func _on_body_entered(body):
 			crowned()
 			emit_signal("delete_body_signal", body)
 		
+		"Devil":
 			
+			if(is_sworded):
+				emit_signal("kill_score_signal", KILL_SCORE)
+				end_sworded()
+				
+			else:
+				take_damage(2)
+				emit_signal("delete_body_signal", body)
 	
 func take_damage(amount: int):
 	

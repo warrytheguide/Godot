@@ -1,15 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjeuar0owmb7e"]
+[gd_scene load_steps=4 format=3 uid="uid://dint7v6t0r8dg"]
 
-[ext_resource type="Script" path="res://scenes/dragonfire.gd" id="1_p7dt2"]
-[ext_resource type="Texture2D" uid="uid://jeebmy2umk18" path="res://assets/img/background/realground.png" id="2_qiwpb"]
+[ext_resource type="Script" path="res://scenes/devilfire.gd" id="1_x5x56"]
+[ext_resource type="Texture2D" uid="uid://jeebmy2umk18" path="res://assets/img/background/realground.png" id="2_4is7j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
 size = Vector2(47.9595, 49.6487)
 
-[node name="DragonFire" type="StaticBody2D" groups=["alt_speed", "bugged_hitbox"]]
+[node name="DevilFire" type="StaticBody2D" groups=["alt_speed", "bugged_hitbox"]]
 scale = Vector2(1.48, 1.48)
 collision_layer = 2
-script = ExtResource("1_p7dt2")
+script = ExtResource("1_x5x56")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.905337, 0.507954, 5.77569e-07, 1)
@@ -17,7 +17,7 @@ self_modulate = Color(0.843137, 0.258824, 0, 1)
 texture_filter = 1
 position = Vector2(-2.10136, -1.79106)
 scale = Vector2(0.0719724, 0.0719724)
-texture = ExtResource("2_qiwpb")
+texture = ExtResource("2_4is7j")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2
