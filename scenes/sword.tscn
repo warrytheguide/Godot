@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
 size = Vector2(66.1402, 13.7804)
 
-[node name="Sword" type="StaticBody2D" groups=["alt_speed"]]
+[node name="Sword" type="StaticBody2D" groups=["alt_speed", "sword"]]
 scale = Vector2(1.48, 1.48)
 collision_layer = 2
 script = ExtResource("1_p1uxe")

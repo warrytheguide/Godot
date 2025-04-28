@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fx408"]
 size = Vector2(46.8902, 157.317)
 
-[node name="Devil" type="StaticBody2D"]
+[node name="Devil" type="StaticBody2D" groups=["devil"]]
 scale = Vector2(1.64, 1.64)
 collision_layer = 2
 script = ExtResource("1_vw2n1")

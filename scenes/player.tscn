@@ -156,6 +156,20 @@ theme_override_font_sizes/font_size = 24
 text = "MEG VAGY KORONÁZVA!"
 horizontal_alignment = 1
 
+[node name="Flying" type="Label" parent="StatusEffects"]
+visible = false
+offset_left = 315.0
+offset_top = 197.0
+offset_right = 765.0
+offset_bottom = 271.0
+theme_override_colors/font_color = Color(0, 0.540557, 0.984225, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_m0h7y")
+theme_override_font_sizes/font_size = 24
+text = "TUDSZ REPÜLNI!"
+horizontal_alignment = 1
+
 [node name="DoubleJump" type="Sprite2D" parent="StatusEffects"]
 visible = false
 position = Vector2(93, 117)

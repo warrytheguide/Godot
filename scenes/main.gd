@@ -61,6 +61,9 @@ func new_game():
 	$Platform1.visible = false
 	$Platform2.set_process_mode(Node.PROCESS_MODE_DISABLED)
 	$Platform2.visible = false
+	$Background/Forest.set_deferred("visible", true)
+	$Background/Castle.set_deferred("visible", false)
+	$Background/Hell.set_deferred("visible", false)
 
 func _process(delta):
 	

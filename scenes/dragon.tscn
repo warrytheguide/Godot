@@ -9,7 +9,7 @@ size = Vector2(77, 74)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4pa8k"]
 size = Vector2(82.125, 75)
 
-[node name="Dragon" type="CharacterBody2D" groups=["alt_speed"]]
+[node name="Dragon" type="CharacterBody2D" groups=["alt_speed", "dragon"]]
 collision_layer = 2
 script = ExtResource("1_smk7k")
 

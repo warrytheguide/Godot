@@ -11,6 +11,8 @@ const JUMP_FORCE = -700  # Adjust this value as needed
 const JUMP_CUT = 0.6     # How much to cut the jump when button is released
 const GRAVITY = 2500      # Adjust as needed
 const MAX_JUMP_TIME = 0.3  # Maximum time the jump can be held (in seconds)
+const FLY_SPEED = 600  # Increased from 400 for faster flight
+const MAX_FLY_HEIGHT = 50  # Adjust this value based on your game's
 
 var health: int = MAX_HEALTH
 var hearts_list: Array[TextureRect]
@@ -31,6 +33,8 @@ var fired_buff_timer: Timer = null
 var is_sworded: bool = false
 var is_crowned: bool = false
 var crowned_buff_timer: Timer = null
+var is_flying: bool = false
+var flying_buff_timer: Timer = null
 
 @onready var collision_area = $Area2D
 
@@ -66,19 +70,36 @@ func _ready():
 		crowned_buff_timer.one_shot = true
 		add_child(crowned_buff_timer)
 		
+	if not flying_buff_timer:
+		flying_buff_timer = Timer.new()
+		flying_buff_timer.one_shot = true
+		add_child(flying_buff_timer)
+		
 func _physics_process(delta):
-	velocity.y += GRAVITY * delta
+	# Apply gravity only when not flying
+	if not is_flying:
+		velocity.y += GRAVITY * delta
+	else:
+		# When flying, control vertical movement with up/down keys
+		if Input.is_action_pressed("ui_up") and position.y > MAX_FLY_HEIGHT:
+			velocity.y = -FLY_SPEED
+		elif Input.is_action_pressed("ui_down"):
+			velocity.y = FLY_SPEED
+		else:
+			velocity.y = 0
 	
 	if is_on_floor():
 		is_jumping = false
 	
-	if Input.is_action_just_pressed("ui_accept"):
+	# Only allow jumping when not flying
+	if Input.is_action_just_pressed("ui_accept") and not is_flying:
 		if is_on_floor():
 			start_jump()
 		elif double_jump:
 			start_jump()
 			double_jump = false
 	
+	# Handle continuous jumping
 	if is_jumping:
 		if Input.is_action_pressed("ui_accept"):
 			jump_time += delta
@@ -91,21 +112,28 @@ func _physics_process(delta):
 			
 	$StatusEffects/DoubleJump.visible = double_jump
 	
-	if Input.is_action_just_pressed("ui_down") and is_on_floor():
-		drop_through = true
-		$CollisionShape2D.set_deferred("disabled", true)  # Disable collision safely
+	# Handle dropping through platforms
+	if Input.is_action_just_pressed("ui_down") and is_on_floor() and not is_flying:
+		# Temporarily disable collision with one-way platforms (layer 6)
+		set_collision_mask_value(6, false)
 		drop_timer = DROP_DELAY
 	
 	# Count down the drop timer
 	if drop_timer > 0:
 		drop_timer -= delta
 	
-	# Re-enable collision after the delay or when no longer falling
-	if drop_through and (drop_timer <= 0 or velocity.y == 0):
-		$CollisionShape2D.set_deferred("disabled", false)
-		drop_through = false
+	# Re-enable collision after the delay
+	if not is_flying and drop_timer <= 0 and not get_collision_mask_value(6):
+		set_collision_mask_value(6, true)
+	
+	# Disable collision with one-way platforms while flying
+	if is_flying and get_collision_mask_value(6):
+		set_collision_mask_value(6, false)
 	
 	move_and_slide()
+
+
+
 
 func start_jump():
 	velocity.y = JUMP_FORCE
@@ -118,93 +146,64 @@ func end_jump():
 		velocity.y *= JUMP_CUT
 
 func _on_body_entered(body):
-	print(body.name)
+	print("Body groups:", body.get_groups())
 	
-	if(body.is_in_group("bugged_hitbox")): #valamiért néha rossz névvel spawnol be a DragonFire
+
+	if body.is_in_group("bear"):
+		if is_honeyed:
+			emit_signal("kill_score_signal", KILL_SCORE)
+		elif is_sworded:
+			emit_signal("kill_score_signal", KILL_SCORE)
+			end_sworded()
+		else:
+			take_damage(1)
+			emit_signal("delete_body_signal", body)
+	elif body.is_in_group("bush"):
+		if is_appled:
+			emit_signal("kill_score_signal", KILL_SCORE)
+		else:
+			take_damage(1)
+			emit_signal("delete_body_signal", body)
+	elif body.is_in_group("honey"):
+		heal(1)
+		honeyed()
+		emit_signal("delete_body_signal", body)
+	elif body.is_in_group("apple"):
+		appled()
+		emit_signal("delete_body_signal", body)
+	elif body.is_in_group("fire"):
 		take_damage(1)
 		fired()
 		emit_signal("delete_body_signal", body)
-		
-	match body.name:
-		
-		"Bear":
-			if(is_honeyed):
-				emit_signal("kill_score_signal", KILL_SCORE)
-			elif(is_sworded):
-				emit_signal("kill_score_signal", KILL_SCORE)
-				end_sworded()
-			else:
-				take_damage(1)
-				emit_signal("delete_body_signal", body)
-			
-		"Bush":
-			if(is_appled):
-				emit_signal("kill_score_signal", KILL_SCORE)
-			else:
-				take_damage(1)
-				emit_signal("delete_body_signal", body)
-		
-			
-		"Honey":
-			heal(1)
-			honeyed()
+	elif body.is_in_group("knight") or body.is_in_group("sword"):
+		if is_crowned:
+			emit_signal("kill_score_signal", KILL_SCORE)
 			emit_signal("delete_body_signal", body)
+		elif is_sworded:
+			emit_signal("kill_score_signal", KILL_SCORE)
+			end_sworded()
 			
-		"Apple":
-			appled()
-			emit_signal("delete_body_signal", body)
-		
-			
-		"Fire":
+		else:
 			take_damage(1)
-			fired()
 			emit_signal("delete_body_signal", body)
-		
-			
-		"Knight":
-			
-			if(is_crowned):
-				emit_signal("kill_score_signal", KILL_SCORE)
-			
-			elif(is_sworded):
-				emit_signal("kill_score_signal", KILL_SCORE)
-				end_sworded()
-				
-			else:
-				take_damage(1)
-				emit_signal("delete_body_signal", body)
-		
-		"Sword":
-			
-			if(is_crowned):
-				emit_signal("kill_score_signal", KILL_SCORE)
-			
-			elif(is_sworded):
-				emit_signal("kill_score_signal", KILL_SCORE)
-				end_sworded()
-				
-			else:
-				take_damage(1)
-				emit_signal("delete_body_signal", body)
-			
-		"SwordBuff":
-			sworded()
+	elif body.is_in_group("swordbuff"):
+		sworded()
+		emit_signal("delete_body_signal", body)
+	elif body.is_in_group("crown"):
+		crowned()
+		emit_signal("delete_body_signal", body)
+	elif body.is_in_group("devil"):
+		if is_sworded:
+			emit_signal("kill_score_signal", KILL_SCORE)
+			end_sworded()
+		else:
+			take_damage(2)
 			emit_signal("delete_body_signal", body)
-		
-		"Crown":
-			crowned()
-			emit_signal("delete_body_signal", body)
-		
-		"Devil":
-			
-			if(is_sworded):
-				emit_signal("kill_score_signal", KILL_SCORE)
-				end_sworded()
-				
-			else:
-				take_damage(2)
-				emit_signal("delete_body_signal", body)
+	elif body.is_in_group("wings"):
+		flyed()
+		emit_signal("delete_body_signal", body)
 	
+		
 func take_damage(amount: int):
 	
 	health -= amount + (1 if is_fired else 0)
@@ -232,7 +231,8 @@ func game_over():
 	end_appled()
 	end_fired()
 	end_sworded()
-	
+	end_crowned()
+	end_flyed()
 	
 	
 func honeyed():
@@ -309,3 +309,19 @@ func crowned():
 func end_crowned():
 	is_crowned = false
 	$StatusEffects/Crowned.visible = false
+	
+func flyed():
+	is_flying = true
+	$StatusEffects/Flying.set_deferred("visible", true)
+	
+	if flying_buff_timer.is_stopped() == false:
+		flying_buff_timer.stop()
+
+	flying_buff_timer.start(BUFF_DURATION)
+
+	if not flying_buff_timer.is_connected("timeout", Callable(self, "end_flyed")):
+		flying_buff_timer.connect("timeout", Callable(self, "end_flyed"))
+
+func end_flyed():
+	is_flying = false
+	$StatusEffects/Flying.visible = false

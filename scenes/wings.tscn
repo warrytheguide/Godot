@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bd8pypfx4qpmr"]
+
+[ext_resource type="Texture2D" uid="uid://cfk3scbxocxrd" path="res://assets/img/wings.png" id="1_y3yaq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
+size = Vector2(78.2517, 55.416)
+
+[node name="Wings" type="StaticBody2D" groups=["wings"]]
+scale = Vector2(1.48, 1.48)
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -13.5135)
+scale = Vector2(1.75676, 1.75676)
+texture = ExtResource("1_y3yaq")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+position = Vector2(-0.675674, -23.6539)
+shape = SubResource("RectangleShape2D_4q30l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["wings"]]
+visible = false
+position = Vector2(-0.548984, -20.9671)
+shape = SubResource("RectangleShape2D_4q30l")

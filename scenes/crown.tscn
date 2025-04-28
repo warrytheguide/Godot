@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
 size = Vector2(53.3678, 39.8649)
 
-[node name="Crown" type="StaticBody2D"]
+[node name="Crown" type="StaticBody2D" groups=["crown"]]
 scale = Vector2(1.48, 1.48)
 collision_layer = 2
 

@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
 size = Vector2(52.7027, 61.2331)
 
-[node name="Apple" type="StaticBody2D"]
+[node name="Apple" type="StaticBody2D" groups=["apple"]]
 scale = Vector2(1.48, 1.48)
 collision_layer = 2
 

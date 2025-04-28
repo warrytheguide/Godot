@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fx408"]
 size = Vector2(61, 117)
 
-[node name="Bear" type="StaticBody2D"]
+[node name="Bear" type="StaticBody2D" groups=["bear"]]
 scale = Vector2(1.64, 1.64)
 collision_layer = 2
 script = ExtResource("1_n2mjj")
