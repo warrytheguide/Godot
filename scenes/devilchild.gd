@@ -8,9 +8,9 @@ signal spawn_obs(obs, x, y)
 signal hit_player
 
 var time = 0.0
-var initial_y = 0
+var initial_y = 0.0
 
-@onready var area_2d = $DevilChild
+@onready var area_2d = $Dragon
  
 func _ready():
 
@@ -30,7 +30,7 @@ func _ready():
 		area_2d.monitorable = true
 		area_2d.connect("body_entered", Callable(self, "_on_body_entered"))
 	else:
-		print("Error: DevilChild Area2D node not found")
+		print("Error: Dragon Area2D node not found")
 
 func _physics_process(delta):
 	time += delta
@@ -44,8 +44,8 @@ func _on_body_entered(body):
 	if body.name == "Player":
 		emit_signal("hit_player")
 		visible = false
-		$DevilChild.set_deferred("monitoring", false)
-		$DevilChild.set_deferred("monitorable", false)
-	elif body.name == "FireSpawner":
-		var fire = load("res://scenes/fire.tscn").instantiate()
-		emit_signal("spawn_obs", fire, 800, 300)
+		$Dragon.set_deferred("monitoring", false)
+		$Dragon.set_deferred("monitorable", false)
+	elif body.name.begins_with("DevilFireSpawner"):
+		var fire = load("res://scenes/devilfire.tscn").instantiate()
+		emit_signal("spawn_obs", fire, global_position.x, 300)

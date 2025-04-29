@@ -35,6 +35,7 @@ var is_crowned: bool = false
 var crowned_buff_timer: Timer = null
 var is_flying: bool = false
 var flying_buff_timer: Timer = null
+var is_shielded: bool = false
 
 @onready var collision_area = $Area2D
 
@@ -152,15 +153,18 @@ func _on_body_entered(body):
 	if body.is_in_group("bear"):
 		if is_honeyed:
 			emit_signal("kill_score_signal", KILL_SCORE)
+			emit_signal("delete_body_signal", body)
 		elif is_sworded:
 			emit_signal("kill_score_signal", KILL_SCORE)
 			end_sworded()
+			heal(1)
+			emit_signal("delete_body_signal", body)
 		else:
 			take_damage(1)
 			emit_signal("delete_body_signal", body)
 	elif body.is_in_group("bush"):
 		if is_appled:
-			emit_signal("kill_score_signal", KILL_SCORE)
+			emit_signal("delete_body_signal", body)
 		else:
 			take_damage(1)
 			emit_signal("delete_body_signal", body)
@@ -172,7 +176,6 @@ func _on_body_entered(body):
 		appled()
 		emit_signal("delete_body_signal", body)
 	elif body.is_in_group("fire"):
-		take_damage(1)
 		fired()
 		emit_signal("delete_body_signal", body)
 	elif body.is_in_group("knight") or body.is_in_group("sword"):
@@ -181,7 +184,9 @@ func _on_body_entered(body):
 			emit_signal("delete_body_signal", body)
 		elif is_sworded:
 			emit_signal("kill_score_signal", KILL_SCORE)
+			heal(1)
 			end_sworded()
+			emit_signal("delete_body_signal", body)
 			
 		else:
 			take_damage(1)
@@ -196,17 +201,34 @@ func _on_body_entered(body):
 		if is_sworded:
 			emit_signal("kill_score_signal", KILL_SCORE)
 			end_sworded()
+			heal(1)
+			emit_signal("delete_body_signal", body)
 		else:
 			take_damage(2)
 			emit_signal("delete_body_signal", body)
 	elif body.is_in_group("wings"):
 		flyed()
 		emit_signal("delete_body_signal", body)
+	elif body.is_in_group("shield"):
+		is_shielded = true
+		$StatusEffects/Shield.set_deferred("visible", true)
+		emit_signal("delete_body_signal", body)
 	
 		
 func take_damage(amount: int):
 	
-	health -= amount + (1 if is_fired else 0)
+	if(is_fired):
+		if(health - (amount + 1) <= 0 && is_shielded):
+			amount -= 1
+			end_shielded()
+		health -= amount + 1
+		
+	else:
+		if(health - amount <= 0 && is_shielded):
+			amount -= 1
+			end_shielded()
+		health -= amount
+	
 	update_heart_display()
 	if health <= 0:
 		health = 3
@@ -233,6 +255,7 @@ func game_over():
 	end_sworded()
 	end_crowned()
 	end_flyed()
+	end_shielded()
 	
 	
 func honeyed():
@@ -264,7 +287,6 @@ func fired():
 		fired_buff_timer.connect("timeout", Callable(self, "end_fired"))
 
 func end_fired():
-	print("Hello, World!")
 	is_fired = false
 	$StatusEffects/Fired.set_deferred("visible", false)
 	
@@ -295,6 +317,12 @@ func end_sworded():
 	$StatusEffects/Sworded.visible = false
 	
 func crowned():
+	
+	if(is_fired):
+		if fired_buff_timer.is_stopped() == false:
+			fired_buff_timer.stop()
+		end_fired()
+		
 	is_crowned = true
 	$StatusEffects/Crowned.set_deferred("visible", true)
 	
@@ -325,3 +353,7 @@ func flyed():
 func end_flyed():
 	is_flying = false
 	$StatusEffects/Flying.visible = false
+	
+func end_shielded():
+	is_shielded = false
+	$StatusEffects/Shield.set_deferred("visible", false)

@@ -10,7 +10,7 @@ func _ready():
 	elif r < 2.0 / 3.0:
 		initial_y = 340
 	else:
-		initial_y = 160
+		initial_y = 150
 	global_position.y = initial_y
 	
 var speed = 1000

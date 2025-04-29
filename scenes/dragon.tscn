@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://6ts5jchxcggo"]
 
 [ext_resource type="Script" path="res://scenes/dragon.gd" id="1_smk7k"]
-[ext_resource type="Texture2D" uid="uid://jeebmy2umk18" path="res://assets/img/background/realground.png" id="2_nx7cs"]
+[ext_resource type="Texture2D" uid="uid://by5bpcn3ss7cq" path="res://assets/img/dragon.png" id="2_q0ddn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5g8xr"]
 size = Vector2(77, 74)
@@ -14,10 +14,9 @@ collision_layer = 2
 script = ExtResource("1_smk7k")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0, 0.638955, 1.34766e-06, 1)
-position = Vector2(35.0812, 35.4768)
-scale = Vector2(0.114805, 0.108363)
-texture = ExtResource("2_nx7cs")
+position = Vector2(36, 30)
+scale = Vector2(4.55167, 4.29627)
+texture = ExtResource("2_q0ddn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(33.5, 35)

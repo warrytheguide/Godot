@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bhtein0chknfn"]
+[gd_scene load_steps=10 format=3 uid="uid://bhtein0chknfn"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_1stpw"]
 [ext_resource type="Texture2D" uid="uid://brkfmxotnemb8" path="res://assets/img/Sprite-0002.png" id="2_430w4"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bn0sqm8aeqvt4" path="res://assets/img/heartfull.png" id="4_xdil0"]
 [ext_resource type="FontFile" uid="uid://s15272omc2m3" path="res://assets/fonts/retro.ttf" id="5_m0h7y"]
 [ext_resource type="Texture2D" uid="uid://uimr4jcmjhxs" path="res://assets/img/doublejump.png" id="6_ismm2"]
+[ext_resource type="Texture2D" uid="uid://d3yfp3lgfyqoq" path="res://assets/img/shield.png" id="7_3qr61"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_whux2"]
 size = Vector2(13.5, 12)
@@ -169,6 +170,12 @@ theme_override_fonts/font = ExtResource("5_m0h7y")
 theme_override_font_sizes/font_size = 24
 text = "TUDSZ REPÜLNI!"
 horizontal_alignment = 1
+
+[node name="Shield" type="Sprite2D" parent="StatusEffects"]
+visible = false
+position = Vector2(908.375, 50)
+scale = Vector2(3.47656, 3.00962)
+texture = ExtResource("7_3qr61")
 
 [node name="DoubleJump" type="Sprite2D" parent="StatusEffects"]
 visible = false

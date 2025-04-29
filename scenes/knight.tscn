@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bcdnpxivf08ir"]
 
 [ext_resource type="Script" path="res://scenes/knight.gd" id="1_ajkp2"]
-[ext_resource type="Texture2D" uid="uid://jeebmy2umk18" path="res://assets/img/background/realground.png" id="2_u10i8"]
+[ext_resource type="Texture2D" uid="uid://cnos3avxwen6i" path="res://assets/img/knight.png" id="2_j3xk1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fx408"]
 size = Vector2(46.8902, 157.317)
@@ -12,11 +12,10 @@ collision_layer = 2
 script = ExtResource("1_ajkp2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.212721, 0.283758, 0.272706, 1)
 texture_filter = 1
-position = Vector2(-1.52439, -14.3293)
-scale = Vector2(0.0692496, 0.223834)
-texture = ExtResource("2_u10i8")
+position = Vector2(-1.82927, -23.4686)
+scale = Vector2(2.03864, 2.20292)
+texture = ExtResource("2_j3xk1")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2

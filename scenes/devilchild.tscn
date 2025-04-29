@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://br54ndy0uxlmc"]
+[gd_scene load_steps=5 format=3 uid="uid://87hjory62po1"]
 
-[ext_resource type="Script" path="res://scenes/devilchild.gd" id="1_45byq"]
-[ext_resource type="Texture2D" uid="uid://jeebmy2umk18" path="res://assets/img/background/realground.png" id="2_paqiw"]
+[ext_resource type="Script" path="res://scenes/devilchild.gd" id="1_qx0n4"]
+[ext_resource type="Texture2D" uid="uid://bil1lqyeopiy1" path="res://assets/img/devilchild.png" id="2_yo1qc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5g8xr"]
 size = Vector2(77, 74)
@@ -11,22 +11,21 @@ size = Vector2(82.125, 75)
 
 [node name="DevilChild" type="CharacterBody2D" groups=["alt_speed", "devilchild"]]
 collision_layer = 2
-script = ExtResource("1_45byq")
+script = ExtResource("1_qx0n4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0, 0.638955, 1.34766e-06, 1)
-position = Vector2(35.0812, 35.4768)
-scale = Vector2(0.114805, 0.108363)
-texture = ExtResource("2_paqiw")
+position = Vector2(35, 33)
+scale = Vector2(4.85167, 5)
+texture = ExtResource("2_yo1qc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(33.5, 35)
 shape = SubResource("RectangleShape2D_5g8xr")
 disabled = true
 
-[node name="DevilChild" type="Area2D" parent="."]
+[node name="Dragon" type="Area2D" parent="."]
 collision_layer = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DevilChild"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dragon"]
 position = Vector2(34.9375, 35.5)
 shape = SubResource("RectangleShape2D_4pa8k")

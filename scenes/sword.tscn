@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cmqu80xn2eavq"]
 
 [ext_resource type="Script" path="res://scenes/alterred_speed.gd" id="1_p1uxe"]
-[ext_resource type="Texture2D" uid="uid://jeebmy2umk18" path="res://assets/img/background/realground.png" id="2_vynl3"]
+[ext_resource type="Texture2D" uid="uid://d22n0tpe3btgn" path="res://assets/img/Sword.png" id="2_tursl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
 size = Vector2(66.1402, 13.7804)
@@ -12,11 +12,10 @@ collision_layer = 2
 script = ExtResource("1_p1uxe")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1.73271e-06, 0.765914, 0.772011, 1)
 texture_filter = 1
-position = Vector2(5.40541, 7.43243)
-scale = Vector2(0.0983816, 0.0193105)
-texture = ExtResource("2_vynl3")
+position = Vector2(10.104, 6.73262)
+scale = Vector2(2.88496, 1.89672)
+texture = ExtResource("2_tursl")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2

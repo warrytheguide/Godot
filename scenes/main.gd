@@ -5,6 +5,9 @@ var obstacles : Array
 @export var spawner_one: Array[Resource] = []
 @export var spawner_two: Array[Resource] = []
 @export var spawner_three: Array[Resource] = []
+@export var spawner_one_hard: Array[Resource] = []
+@export var spawner_two_hard: Array[Resource] = []
+@export var spawner_three_hard: Array[Resource] = []
 
 
 const Player_POS := Vector2i(200, 510)
@@ -94,7 +97,7 @@ func _process(delta):
 		hardmode()
 		match int(fmod(score / 1000, 3)):
 			0:
-				game_phase = 1
+				game_phase = 4
 				$Platform1.set_process_mode(Node.PROCESS_MODE_DISABLED)
 				$Platform1.visible = false
 				$Platform2.set_process_mode(Node.PROCESS_MODE_DISABLED)
@@ -102,13 +105,13 @@ func _process(delta):
 				$Background/Hell.set_deferred("visible", false)
 				$Background/Forest.set_deferred("visible", true)
 			1:
-				game_phase = 2
+				game_phase = 5
 				$Platform1.set_process_mode(Node.PROCESS_MODE_INHERIT)
 				$Platform1.visible = true
 				$Background/Forest.set_deferred("visible", false)
 				$Background/Castle.set_deferred("visible", true)
 			2:
-				game_phase = 3
+				game_phase = 6
 				$Platform2.set_process_mode(Node.PROCESS_MODE_INHERIT)
 				$Platform2.visible = true
 				$Background/Castle.set_deferred("visible", false)
@@ -156,6 +159,12 @@ func generate_obs():
 			obs_type = spawner_two[randi() % spawner_two.size()]
 		3:
 			obs_type = spawner_three[randi() % spawner_three.size()]
+		4:
+			obs_type = spawner_one_hard[randi() % spawner_one.size()]
+		5:
+			obs_type = spawner_two_hard[randi() % spawner_two.size()]
+		6:
+			obs_type = spawner_three_hard[randi() % spawner_three.size()]
 			
 	var obs = obs_type.instantiate()
 	var obs_height = obs.get_node("Sprite2D").texture.get_height()

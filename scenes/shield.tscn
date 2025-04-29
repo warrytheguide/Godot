@@ -1,28 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://bx12g6gpsvaj4"]
+[gd_scene load_steps=3 format=3 uid="uid://dlqawd7fy3ksa"]
 
-[ext_resource type="Texture2D" uid="uid://bbcjixr80kxig" path="res://assets/img/apple.png" id="2_5tuq8"]
+[ext_resource type="Texture2D" uid="uid://d3yfp3lgfyqoq" path="res://assets/img/shield.png" id="1_idp4v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q30l"]
-size = Vector2(52.7027, 61.2331)
+size = Vector2(40.5405, 47.973)
 
-[node name="Apple" type="StaticBody2D" groups=["apple"]]
+[node name="Shield" type="StaticBody2D" groups=["shield"]]
 scale = Vector2(1.48, 1.48)
 collision_layer = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(3.10811, 3.10811)
-texture = ExtResource("2_5tuq8")
+position = Vector2(3.8147e-06, -3.8147e-06)
+scale = Vector2(1.91554, 1.91554)
+texture = ExtResource("1_idp4v")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0.675674, -1.60472)
-scale = Vector2(0.783784, 0.783784)
+position = Vector2(1.68919, 0.337842)
 shape = SubResource("RectangleShape2D_4q30l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.675676, -1.1402)
-scale = Vector2(0.729732, 0.723845)
+position = Vector2(1.35135, 1.6892)
 shape = SubResource("RectangleShape2D_4q30l")
