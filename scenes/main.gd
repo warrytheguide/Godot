@@ -20,8 +20,9 @@ var last_obs
 var spawn_speed: float = 1.7
 var spawn_timer: float = 0.0
 var game_phase = 1
+var obstacle_speed : float = 5.7
+var is_hardmode : bool = false
 
-const OBSTACLE_SPEED : float = 5.7
 const SCORE_MODIFIER : float = 40
 const PHASE_TWO_SCORE = 1000
 const PHASE_THREE_SCORE = 2000
@@ -43,7 +44,7 @@ func _ready():
 	new_game()
 
 func new_game():
-	score = 0
+	score = 2800
 	show_score()
 	game_running = false
 	get_tree().paused = false
@@ -83,7 +84,11 @@ func _process(delta):
 		# Move obstacles at constant speed
 		for obs in obstacles:
 			if not obs.is_in_group("alt_speed"):
-				obs.position.x -= OBSTACLE_SPEED
+				obs.position.x -= obstacle_speed
+			else:
+				if(is_hardmode && !obs.sped_up):
+					obs.speed += 400
+					obs.sped_up = true
 				
 		score += SCORE_MODIFIER/100
 		show_score()
@@ -207,7 +212,9 @@ func check_high_score():
 		$HUD.get_node("HighScoreLabel").text = "HIGH SCORE: " + str(high_score / SCORE_MODIFIER)
 
 func hardmode():
-	pass
+	obstacle_speed = 10
+	is_hardmode = true
+	$Player.buff_duration=4.5
 
 func kill_score(amount: float):
 	score += amount

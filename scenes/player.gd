@@ -5,14 +5,15 @@ signal delete_body_signal(body)
 signal kill_score_signal(amount)
 
 const MAX_HEALTH: int = 3
-const BUFF_DURATION: float = 6
 const KILL_SCORE: float = 100
-const JUMP_FORCE = -700  # Adjust this value as needed
-const JUMP_CUT = 0.6     # How much to cut the jump when button is released
-const GRAVITY = 2500      # Adjust as needed
-const MAX_JUMP_TIME = 0.3  # Maximum time the jump can be held (in seconds)
-const FLY_SPEED = 600  # Increased from 400 for faster flight
-const MAX_FLY_HEIGHT = 50  # Adjust this value based on your game's
+const JUMP_FORCE = -700
+const JUMP_CUT = 0.6
+const GRAVITY = 2500 
+const MAX_JUMP_TIME = 0.3
+const FLY_SPEED = 600 
+const MAX_FLY_HEIGHT = 50 
+const DROP_DELAY = 0.04 
+
 
 var health: int = MAX_HEALTH
 var hearts_list: Array[TextureRect]
@@ -22,7 +23,7 @@ var is_jumping = false
 var double_jump = false
 var drop_through = false
 var drop_timer = 0.0
-const DROP_DELAY = 0.04  # Adjust this value as needed
+var buff_duration: float = 7
 
 var is_honeyed: bool = false
 var honeyed_buff_timer: Timer = null
@@ -265,7 +266,7 @@ func honeyed():
 	if honeyed_buff_timer.is_stopped() == false:
 		honeyed_buff_timer.stop()
 
-	honeyed_buff_timer.start(BUFF_DURATION)
+	honeyed_buff_timer.start(buff_duration)
 
 	if not honeyed_buff_timer.is_connected("timeout", Callable(self, "end_honeyed")):
 		honeyed_buff_timer.connect("timeout", Callable(self, "end_honeyed"))
@@ -281,7 +282,7 @@ func fired():
 	if fired_buff_timer.is_stopped() == false:
 		fired_buff_timer.stop()
 
-	fired_buff_timer.start(BUFF_DURATION)
+	fired_buff_timer.start(buff_duration)
 
 	if not fired_buff_timer.is_connected("timeout", Callable(self, "end_fired")):
 		fired_buff_timer.connect("timeout", Callable(self, "end_fired"))
@@ -299,7 +300,7 @@ func appled():
 	if appled_buff_timer.is_stopped() == false:
 		appled_buff_timer.stop()
 
-	appled_buff_timer.start(BUFF_DURATION)
+	appled_buff_timer.start(buff_duration)
 
 	if not appled_buff_timer.is_connected("timeout", Callable(self, "end_appled")):
 		appled_buff_timer.connect("timeout", Callable(self, "end_appled"))
@@ -329,7 +330,7 @@ func crowned():
 	if crowned_buff_timer.is_stopped() == false:
 		crowned_buff_timer.stop()
 
-	crowned_buff_timer.start(BUFF_DURATION)
+	crowned_buff_timer.start(buff_duration)
 
 	if not crowned_buff_timer.is_connected("timeout", Callable(self, "end_crowned")):
 		crowned_buff_timer.connect("timeout", Callable(self, "end_crowned"))
@@ -345,7 +346,7 @@ func flyed():
 	if flying_buff_timer.is_stopped() == false:
 		flying_buff_timer.stop()
 
-	flying_buff_timer.start(BUFF_DURATION)
+	flying_buff_timer.start(buff_duration)
 
 	if not flying_buff_timer.is_connected("timeout", Callable(self, "end_flyed")):
 		flying_buff_timer.connect("timeout", Callable(self, "end_flyed"))

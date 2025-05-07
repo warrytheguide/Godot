@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-@export var horizontal_speed = 200.0
+var speed = 200.0
+var sped_up = false
 @export var vertical_amplitude = 170.0
 @export var vertical_frequency = 5.0
 
@@ -38,7 +39,7 @@ func _physics_process(delta):
 	var vertical_movement = sin(time * vertical_frequency) * vertical_amplitude
 	
 	global_position.y = initial_y + vertical_movement
-	global_position.x -= horizontal_speed * delta
+	global_position.x -= speed * delta
 
 func _on_body_entered(body):
 	if body.name == "Player":
