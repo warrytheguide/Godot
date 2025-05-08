@@ -153,6 +153,7 @@ func game_over():
 	game_running = false
 	is_hardmode = false
 	obstacle_speed = 5.7
+	$Player.buff_duration= 7
 	
 	$GameOver.show()
 	emit_signal("game_over_signal")
