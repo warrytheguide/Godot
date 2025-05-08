@@ -151,6 +151,9 @@ func game_over():
 	check_high_score()
 	get_tree().paused = true
 	game_running = false
+	is_hardmode = false
+	obstacle_speed = 5.7
+	
 	$GameOver.show()
 	emit_signal("game_over_signal")
 
