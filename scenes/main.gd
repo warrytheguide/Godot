@@ -44,7 +44,7 @@ func _ready():
 	new_game()
 
 func new_game():
-	score = 2800
+	score = 0
 	show_score()
 	game_running = false
 	get_tree().paused = false
